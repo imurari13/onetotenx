@@ -5,10 +5,9 @@
    ========================================================== */
 
 /* ---------- INTRO: WebGL layer, split headline, growth read-out ---------- */
+#h0c{display:none!important}
 #h0gl{position:absolute;inset:0;width:100%;height:100%;display:block}
-.h0.webgl-on #h0c{display:none}
 .h0.gl-pending .h0t h1{visibility:hidden}
-.h0.webgl-on .h0t>*{animation:none}
 .h0m{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
 .h0wd{display:inline-block;will-change:transform}
 .h0x{position:absolute;right:max(24px,5vw);bottom:clamp(84px,12vh,120px);z-index:2;text-align:right;pointer-events:none;color:var(--ink)}

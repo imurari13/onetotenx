@@ -234,7 +234,6 @@ function loop(t){
   w0.style.opacity=clamp(1-ease((P-.3)/.55),0,1);
   w0.style.transform=`translate3d(0,${-P*70}px,0) scale(${1-P*.06})`;
   w0.style.filter=P>.55?`blur(${ease((P-.55)/.45)*8}px)`:'none';
-  if(!h0.classList.contains('webgl-on'))draw(reduce?0:t);
 }
 requestAnimationFrame(loop);
 

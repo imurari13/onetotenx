@@ -216,10 +216,6 @@ footer.ft{padding:0;color:#fff;background:radial-gradient(900px 420px at 100% 10
 .h0g{list-style:none;padding:0;margin:40px 0 0;display:flex;flex-wrap:wrap;gap:12px}
 .h0g li{padding:12px 22px;border:1px solid #ffffff38;border-radius:99px;color:#e4e4e4;font:500 16px Inter,sans-serif}
 
-.h0t>*{animation:h0up 1s cubic-bezier(.2,.8,.2,1) both}
-.h0t>p{animation-delay:.12s}.h0t>.h0b{animation-delay:.22s}.h0t>.h0g{animation-delay:.32s}
-@keyframes h0up{from{opacity:0;transform:translateY(34px);filter:blur(8px)}}
-
 .h0c{position:absolute;left:50%;bottom:26px;width:26px;height:42px;margin-left:-13px;border:2px solid #ffffff59;border-radius:99px;z-index:3}
 .h0c i{position:absolute;left:50%;top:8px;width:4px;height:8px;margin-left:-2px;border-radius:4px;background:#ee5125;animation:h0s 1.8s infinite}
 @keyframes h0s{60%{transform:translateY(14px);opacity:0}}
@@ -245,7 +241,7 @@ body.zoomed header{transform:translateY(-100%)}
 @media(max-width:760px){.hero{height:300vh!important}}
 
 @media(prefers-reduced-motion:reduce){
-  .h0t>*,.h0c i{animation:none!important}
+  .h0c i{animation:none!important}
 }
 
 /* Marcamor family look */
