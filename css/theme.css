@@ -1,0 +1,179 @@
+/* ==========================================================
+   1to10X — THEME (loaded LAST on every page)
+   One palette. One type scale. One hero shell. One motion feel.
+   Black #090909 · White #f6f5f4 · Brand gradient #ee5125 → #e51f31
+   ========================================================== */
+:root {
+  color-scheme: dark;
+  --bg: #090909;
+  --bg-2: #0e0e0f;
+  --panel: #111112;
+  --panel-2: #19191a;
+  --line: #ffffff1c;
+  --ink: #f6f5f4;
+  --mut: #a5a5aa;
+  --orange: #ee5125;
+  --red: #e51f31;
+  --soft: #ff805f;
+  --grad: linear-gradient(110deg, #ee5125, #e51f31);
+  --ease: cubic-bezier(.22, .8, .2, 1);
+  --header-h: 84px;
+  /* legacy tokens used by older css */
+  --brand-bg: var(--bg); --brand-panel: var(--panel); --brand-line: var(--line);
+  --brand-muted: var(--mut); --brand-white: var(--ink);
+  --brand-orange: var(--orange); --brand-red: var(--red); --brand-gradient: var(--grad);
+}
+
+/* ---- smooth scroll (Lenis) ---- */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+html { scroll-behavior: auto; background: var(--bg); }
+body, body.experience-page, body.home-page {
+  background-color: var(--bg);
+  background-image: radial-gradient(#ffffff10 1px, transparent 1.2px);
+  background-size: 46px 46px;
+  color: var(--ink);
+}
+::selection { background: var(--orange); color: #fff; }
+
+/* ---- scroll progress bar ---- */
+.scroll-progress {
+  position: fixed; inset: 0 0 auto; height: 3px; z-index: 120; pointer-events: none;
+  background: var(--grad); transform-origin: 0 50%; transform: scaleX(0);
+}
+
+/* ---- one header everywhere ---- */
+.home-page header, .experience-page .site-header {
+  height: var(--header-h);
+  background: #080808c7;
+  border-bottom: 1px solid #ffffff12;
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  transition: transform .55s var(--ease), background .3s;
+}
+.header-hidden { transform: translateY(-101%) !important; }
+.home-page .lg img, .experience-page .lg img { width: 150px; height: 66px; object-fit: cover; object-position: center; }
+.home-page .nl a:first-child { background: transparent; }
+.home-page .nl a[aria-current="page"], .experience-page .nl a[aria-current="page"],
+.home-page .nl a:first-child { background: transparent; }
+.nl a.is-current { background: #ffffff1f !important; color: #fff !important; }
+
+/* ---- links / eyebrows / buttons on one scale ---- */
+a { color: inherit; }
+.text-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; color: var(--soft); font-size: 13px; font-weight: 700; text-decoration: none; transition: gap .25s var(--ease), color .2s; }
+.text-link:hover { gap: 14px; color: #fff; }
+.page-eyebrow, .experience-kicker { color: var(--soft); }
+
+/* ==========================================================
+   SCENE HERO — full screen, sticky, scroll-driven
+   ========================================================== */
+.scene-hero { position: relative; height: 240svh; background: var(--bg); }
+.scene-pin { position: sticky; top: 0; height: 100svh; min-height: 560px; overflow: hidden; isolation: isolate; background: var(--bg); }
+.scene-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; outline: none; }
+.scene-vignette {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(90deg, #090909e6 0%, #090909a6 28%, #09090930 58%, transparent 80%),
+    linear-gradient(0deg, #090909 0%, #09090900 22%),
+    linear-gradient(180deg, #090909b0 0%, transparent 20%);
+}
+.scene-copy {
+  position: absolute; z-index: 2; left: clamp(24px, 8vw, 128px); top: 50%;
+  width: min(600px, 52%); transform: translateY(-46%); will-change: transform, opacity;
+}
+.scene-copy .page-eyebrow { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+.scene-copy .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); box-shadow: 0 0 16px var(--red); animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .35; transform: scale(.8); } }
+.scene-copy h1 {
+  margin: 0; color: var(--ink); font-size: clamp(46px, 6.4vw, 94px); font-weight: 750;
+  letter-spacing: -.07em; line-height: .96; text-wrap: balance;
+}
+.scene-copy h1 em { font-style: normal; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.scene-copy > p { max-width: 450px; margin: 24px 0 30px; color: #c9c9ce; font-size: clamp(15px, 1.25vw, 18px); line-height: 1.75; }
+.scene-copy .hero-actions { margin-top: 0; }
+.scene-label, .scene-hint { position: absolute; z-index: 3; bottom: 28px; color: #ffffff99; font-size: 10px; font-weight: 700; letter-spacing: .14em; pointer-events: none; }
+.scene-label { left: clamp(24px, 8vw, 128px); }
+.scene-hint { right: clamp(24px, 4vw, 56px); letter-spacing: .06em; text-align: right; }
+.scene-cue {
+  position: absolute; z-index: 3; left: 50%; bottom: 22px; width: 26px; height: 42px; margin-left: -13px;
+  border: 1.5px solid #ffffff66; border-radius: 99px; display: block;
+}
+.scene-cue i { position: absolute; left: 50%; top: 8px; width: 3px; height: 8px; margin-left: -1.5px; border-radius: 2px; background: var(--soft); animation: cue 1.8s var(--ease) infinite; }
+@keyframes cue { 0% { transform: translateY(0); opacity: 1; } 80%, 100% { transform: translateY(14px); opacity: 0; } }
+/* no WebGL: still show a branded hero */
+.no-webgl .scene-pin { background: radial-gradient(ellipse at 72% 45%, #ee512533, transparent 60%), var(--bg); }
+.no-webgl .scene-canvas { display: none; }
+
+/* ==========================================================
+   FULL-SCREEN CONTENT PANELS
+   ========================================================== */
+.content-section, .course-preview, .join-section {
+  position: relative; min-height: 100svh; display: flex; align-items: center;
+  padding: clamp(96px, 12vh, 140px) 0; border-top: 0; background: transparent;
+}
+.content-section > .experience-wrap, .course-preview > .experience-wrap, .join-section > .join-wrap { width: min(90%, 1260px); }
+.content-section::before, .course-preview::before {
+  content: ""; position: absolute; left: 50%; top: 0; width: min(90%, 1260px); height: 1px; transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, #ffffff26, transparent);
+}
+/* seamless fade between the hero and the first panel */
+.scene-hero::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 18svh; pointer-events: none;
+  background: linear-gradient(180deg, transparent, var(--bg)); z-index: 4;
+}
+.section-heading, .section-intro { max-width: 720px; }
+.section-heading h2, .section-intro h2 { color: var(--ink); font-size: clamp(36px, 5vw, 68px); letter-spacing: -.06em; line-height: 1.02; }
+.episode-card, .principle-card, .path-card, .course-card { min-height: 320px; background: linear-gradient(150deg, #19191a, #0e0e0f); }
+.episode-card:hover, .principle-card:hover { background: linear-gradient(150deg, #231512, #0e0e0f); }
+.episode-art { background: radial-gradient(ellipse at 50% 120%, #ee512544, transparent 70%), #101011; border: 1px solid #ffffff14; }
+.episode-art span { color: var(--soft); }
+/* final call-to-action = one clean full screen */
+.content-section:last-of-type .feature-band, .feature-band {
+  min-height: min(70svh, 640px); display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+  padding: clamp(36px, 6vw, 88px); border: 1px solid #ee512533; border-radius: 28px;
+  background: radial-gradient(ellipse at 90% 0%, #ee512530, transparent 50%), radial-gradient(ellipse at 0% 100%, #e51f3122, transparent 50%), var(--panel);
+}
+.feature-band h2 { font-size: clamp(38px, 5.6vw, 78px); max-width: 760px; }
+.experience-footer { border-top: 1px solid var(--line); background: #060606; }
+
+/* reveals are driven by GSAP; CSS fallback keeps content visible */
+.reveal, .reveal.is-visible { opacity: 1; transform: none; transition: none; }
+.js-motion .reveal-pending { opacity: 0; }
+
+/* about page cube hero → full screen */
+.page-about .about-hero { min-height: 100svh; padding-top: calc(var(--header-h) + 40px); }
+
+/* ---- home page: unify remaining light/warm surfaces ---- */
+.home-page .course-card, .home-page .join-form { background: linear-gradient(150deg, #19191a, #0e0e0f); }
+.home-page .join-section { background: transparent; }
+.home-page .recent-videos { min-height: 100svh; }
+.wa { background: #111112 !important; color: #fff !important; border: 1px solid var(--line); box-shadow: 0 10px 30px #0008 !important; }
+
+@media (max-width: 900px) {
+  .scene-hero { height: 200svh; }
+  .scene-copy { width: min(560px, 78%); }
+}
+@media (max-width: 640px) {
+  :root { --header-h: 72px; }
+  .scene-vignette { background: linear-gradient(0deg, #090909 0%, #090909d9 38%, #09090940 72%, #09090990 100%); }
+  .scene-copy { top: auto; bottom: 96px; left: 22px; width: calc(100% - 44px); transform: none; }
+  .scene-copy h1 { font-size: clamp(40px, 12vw, 60px); }
+  .scene-copy > p { font-size: 14px; margin: 16px 0 22px; }
+  .scene-hint { display: none; }
+  .scene-label { bottom: 22px; left: 22px; font-size: 8px; }
+  .feature-band { border-radius: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene-hero { height: 100svh; }
+}
+
+.wa { font-family: Inter, system-ui, sans-serif; }
+
+/* ---- logo: the real trimmed artwork (same file as the footer), shown big and uncropped ---- */
+html body .lg img,html body.home-page .lg img,html body.experience-page .lg img{width:auto!important;height:76px!important;max-width:min(42vw,280px);object-fit:contain!important;object-position:left center!important;display:block}
+html body header,html body header .hw{min-height:96px}
+html body .fl2{width:min(340px,70vw)!important;height:auto!important;margin-bottom:38px}
+@media(max-width:900px){html body .lg img,html body.home-page .lg img,html body.experience-page .lg img{height:66px!important;max-width:min(48vw,240px)}html body header,html body header .hw{min-height:84px}}
+@media(max-width:480px){html body .lg img,html body.home-page .lg img,html body.experience-page .lg img{height:58px!important;max-width:calc(100vw - 120px)}html body header,html body header .hw{min-height:76px}}
