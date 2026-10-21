@@ -108,7 +108,7 @@
     gsap.from(items, { y: 60, opacity: 0, duration: .9, ease: "power3.out", stagger: .07, scrollTrigger: { trigger: list, start: "top 82%", toggleActions: "play none none reverse" } });
     gsap.from(root.querySelectorAll(".faq-search,.faq-chips,.faq-help"), { y: 34, opacity: 0, duration: .9, ease: "power3.out", stagger: .1, scrollTrigger: { trigger: title, start: "top 80%", toggleActions: "play none none reverse" } });
 
-    /* velocity-driven marquee: scroll faster → it speeds up and skews */
+    /* Keep the marquee smooth; scrolling only gives it a subtle speed boost. */
     const rows = root.querySelectorAll(".faq-row");
     rows.forEach((row, i) => { row.innerHTML += row.innerHTML; });
     const tweens = [...rows].map((row, i) => gsap.fromTo(row, { xPercent: i ? -50 : 0 }, { xPercent: i ? 0 : -50, duration: 38, ease: "none", repeat: -1 }));
@@ -116,9 +116,8 @@
     let vel = 0;
     ScrollTrigger.create({ trigger: mq, start: "top bottom", end: "bottom top", onUpdate: self => { vel = self.getVelocity(); } });
     gsap.ticker.add(() => {
-      const target = 1 + Math.min(Math.abs(vel) / 250, 8);
+      const target = 1 + Math.min(Math.abs(vel) / 1400, 0.8);
       tweens.forEach(tw => tw.timeScale(tw.timeScale() + (target - tw.timeScale()) * 0.08));
-      gsap.set(mq, { skewY: -2 + Math.max(-4, Math.min(4, vel / -420)) });
       vel *= 0.9;
     });
   }

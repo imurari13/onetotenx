@@ -76,7 +76,9 @@ addEventListener('scroll',heroS,{passive:true});heroS();
 
 /* scroll section */
 const WN=[...document.querySelectorAll('.wn')];
-function wheelS(){const r=$('#stats').getBoundingClientRect(),sh=r.height/7,t=(innerHeight/2-r.top)/sh-.5,R=560,W=innerWidth;
+function wheelS(){const stats=$('#stats'),r=stats.getBoundingClientRect(),panels=[...stats.querySelectorAll('.stat')],centers=panels.map(e=>e.offsetTop+e.offsetHeight/2),position=innerHeight/2-r.top;let t=0;
+if(centers.length>1){if(position<=centers[0])t=0;else if(position>=centers[centers.length-1])t=centers.length-1;else{for(let i=0;i<centers.length-1;i++){if(position<=centers[i+1]){t=i+(position-centers[i])/(centers[i+1]-centers[i]);break}}}}
+const R=560,W=innerWidth;
 WN.forEach((e,i)=>{const a=(i-t)*13,ar=a*Math.PI/180,x=.12*W-R+R*Math.cos(ar)+26,y=innerHeight/2+R*Math.sin(ar),d=Math.abs(a);
 e.style.transform=`translate(${x}px,${y-16}px) rotate(${a*.9}deg) scale(${1-Math.min(d/45,.3)})`;e.style.opacity=d<6?1:Math.max(0,.4-d/130);e.style.color=d<6?'var(--ink)':'var(--mut)'});drawNet()}
 const cv=$('#net'),c2=cv.getContext('2d');let mx=-999,my=-999;

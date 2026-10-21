@@ -42,7 +42,7 @@
           <span class="experience-kicker">VOICES FROM THE COMMUNITY</span>
           <h2 class="tm-title">Founders say it <em>better.</em></h2>
         </div>
-        <div class="tm-stage" role="list">
+        <div class="tm-stage" role="list" tabindex="0" aria-label="Testimonials. Swipe, drag, scroll horizontally, or use the arrow buttons to browse.">
           ${list.map((x, i) => `
           <article class="tm-card" role="listitem" data-i="${i}" aria-label="Testimonial from ${x.n}">
             <div class="tm-shine"></div>
@@ -98,8 +98,12 @@
   /* ---------- scroll → position ---------- */
   if (hasG && !reduce && innerWidth > 0) {
     gsap.registerPlugin(ScrollTrigger);
-    wrap.style.height = (N * 62 + 100) + "svh"; root.classList.add("tm-pinned");
-    ScrollTrigger.create({ trigger: wrap, start: "top top", end: "bottom bottom", onUpdate: s => { target = s.progress * (N - 1); } });
+    wrap.style.height = (N * 11 + 100) + "svh"; root.classList.add("tm-pinned");
+    const positionTrigger = ScrollTrigger.create({ trigger: wrap, start: "top top", end: "bottom bottom", onUpdate: s => { target = s.progress * (N - 1); } });
+    const refreshPositionTrigger = () => requestAnimationFrame(() => requestAnimationFrame(() => positionTrigger.refresh()));
+    if (document.readyState === "complete") refreshPositionTrigger();
+    else addEventListener("load", refreshPositionTrigger, { once: true });
+    addEventListener("resize", refreshPositionTrigger);
     gsap.ticker.add(() => {
       cur += (target - cur) * 0.085; place(cur);
       setActive(Math.max(0, Math.min(N - 1, Math.round(cur))));
@@ -118,6 +122,50 @@
     };
     root.querySelectorAll(".tm-arrow").forEach(b => b.onclick = () => goTo(Math.round(cur) + +b.dataset.dir));
     cards.forEach((c, i) => c.addEventListener("click", () => { if (i !== active) goTo(i); }));
+    let drag = null, ignoreClick = false, wheelRemainder = 0;
+    stage.addEventListener("pointerdown", e => {
+      if (e.button !== 0) return;
+      drag = { id: e.pointerId, x: e.clientX, y: e.clientY, moved: false };
+    });
+    stage.addEventListener("pointermove", e => {
+      if (!drag || drag.id !== e.pointerId) return;
+      const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+      if (!drag.moved && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+        drag.moved = true;
+        stage.classList.add("is-dragging");
+        stage.setPointerCapture(e.pointerId);
+      }
+      if (drag.moved) e.preventDefault();
+    });
+    const endDrag = e => {
+      if (!drag || drag.id !== e.pointerId) return;
+      if (drag.moved) {
+        const distance = e.clientX - drag.x;
+        const steps = Math.max(1, Math.round(Math.abs(distance) / spacing));
+        ignoreClick = true;
+        window.setTimeout(() => { ignoreClick = false; }, 0);
+        goTo(Math.round(target) + (distance < 0 ? steps : -steps));
+        stage.classList.remove("is-dragging");
+      }
+      drag = null;
+    };
+    stage.addEventListener("pointerup", endDrag);
+    stage.addEventListener("pointercancel", endDrag);
+    stage.addEventListener("click", e => {
+      if (!ignoreClick) return;
+      e.preventDefault();
+      e.stopPropagation();
+      ignoreClick = false;
+    }, true);
+    stage.addEventListener("wheel", e => {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      e.preventDefault();
+      wheelRemainder += e.deltaX;
+      if (Math.abs(wheelRemainder) >= spacing * 0.65) {
+        goTo(Math.round(target) + (wheelRemainder > 0 ? 1 : -1));
+        wheelRemainder = 0;
+      }
+    }, { passive: false });
     addEventListener("keydown", e => { const r = wrap.getBoundingClientRect(); if (r.top < innerHeight * .5 && r.bottom > innerHeight * .5) { if (e.key === "ArrowRight") goTo(Math.round(cur) + 1); if (e.key === "ArrowLeft") goTo(Math.round(cur) - 1); } });
     /* 3D tilt + shine on the active card */
     stage.addEventListener("pointermove", e => {

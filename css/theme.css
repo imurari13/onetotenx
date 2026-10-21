@@ -177,3 +177,77 @@ html body header,html body header .hw{min-height:96px}
 html body .fl2{width:min(340px,70vw)!important;height:auto!important;margin-bottom:38px}
 @media(max-width:900px){html body .lg img,html body.home-page .lg img,html body.experience-page .lg img{height:66px!important;max-width:min(48vw,240px)}html body header,html body header .hw{min-height:84px}}
 @media(max-width:480px){html body .lg img,html body.home-page .lg img,html body.experience-page .lg img{height:58px!important;max-width:calc(100vw - 120px)}html body header,html body header .hw{min-height:76px}}
+
+/* Keep the numbers intro and all seven scroll panels on one continuous animated backdrop. */
+.home-page .numbers-story {
+  position: relative;
+  isolation: isolate;
+  background: #0b0a0d;
+}
+.home-page .numbers-story::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 18% 16%, #ee512566 0, transparent 30%),
+    radial-gradient(ellipse at 82% 30%, #e51f3152 0, transparent 32%),
+    radial-gradient(ellipse at 42% 62%, #ff9a5b38 0, transparent 36%),
+    radial-gradient(ellipse at 88% 88%, #70304c40 0, transparent 32%);
+  background-size: 125% 112%, 118% 120%, 130% 116%, 120% 124%;
+  background-position: 0% 0%, 100% 0%, 20% 100%, 90% 100%;
+  animation: numbers-silk-drift 24s ease-in-out infinite alternate;
+}
+.home-page .numbers-story::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(112deg, transparent 25%, #ffffff09 43%, #ffb27a12 50%, transparent 68%);
+  background-size: 200% 100%;
+  animation: numbers-silk-sheen 18s ease-in-out infinite alternate;
+}
+.home-page .numbers-story > .intro,
+.home-page .numbers-story > .stats {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+}
+.home-page .numbers-story .stat > * {
+  position: relative;
+  z-index: 1;
+}
+.home-page .stat {
+  position: relative;
+}
+.home-page .stat::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 72% 50%, #ee51251c, transparent 56%);
+  opacity: 0;
+  transition: opacity .8s ease;
+}
+.home-page .stat.on::after { opacity: 1; }
+@media(max-width:760px) {
+  .home-page .numbers-story .stat { min-height: 62svh; }
+  .home-page .numbers-story .stat .c { padding-left: 24px; gap: 8px; }
+  .home-page .numbers-story .stat .art { height: 190px; }
+}
+@keyframes numbers-silk-drift {
+  from { background-position: 0% 0%, 100% 0%, 20% 100%, 90% 100%; }
+  to { background-position: 100% 100%, 0% 100%, 80% 0%, 10% 0%; }
+}
+@keyframes numbers-silk-sheen {
+  from { background-position: 100% 0, 0 0; }
+  to { background-position: 0 0, 0 0; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .home-page .numbers-story::before,
+  .home-page .numbers-story::after { animation: none; }
+}

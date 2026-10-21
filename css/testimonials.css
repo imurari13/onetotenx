@@ -13,7 +13,9 @@
 .tm-title { margin: 0; font-size: clamp(34px, 5vw, 72px); font-weight: 750; letter-spacing: -.065em; line-height: 1; }
 .tm-title em { font-style: normal; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
-.tm-stage { position: relative; perspective: 1500px; transform-style: preserve-3d; min-height: 360px; }
+.tm-stage { position: relative; perspective: 1500px; transform-style: preserve-3d; min-height: 360px; cursor: grab; touch-action: pan-y; }
+.tm-stage.is-dragging { cursor: grabbing; user-select: none; }
+.tm-stage.is-dragging .tm-card { pointer-events: none; }
 .tm-card {
   position: absolute; left: 50%; top: 50%; width: min(500px, 82vw); display: grid; gap: 18px; padding: clamp(24px, 3vw, 38px);
   border: 1px solid #ffffff24; border-radius: 28px; cursor: pointer; will-change: transform, opacity, filter; transform-style: preserve-3d;
